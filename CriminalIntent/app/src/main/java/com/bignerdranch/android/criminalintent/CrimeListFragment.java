@@ -1,7 +1,11 @@
 package com.bignerdranch.android.criminalintent;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +18,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import android.support.v4.content.PermissionChecker;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.Tracker;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
+
 
 import java.util.List;
 
@@ -45,6 +60,7 @@ public class CrimeListFragment extends Fragment {
         }
 
         updateUI();
+
 
         return view;
     }
@@ -184,4 +200,6 @@ public class CrimeListFragment extends Fragment {
             mCrimes = crimes;
         }
     }
+
+
 }
