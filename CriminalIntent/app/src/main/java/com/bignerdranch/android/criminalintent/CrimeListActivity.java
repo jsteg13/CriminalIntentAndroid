@@ -14,7 +14,7 @@ public class CrimeListActivity extends SingleFragmentActivity implements CrimeLi
     }
 
     @Override
-    public void onCrimeSelected(Crime crime) {
+    public void onCrimeUpdated(Crime crime) {
         if (findViewById(R.id.fragment_container) == null) {
             Intent intent = CrimePagerActivity.newIntent(this, crime.getId());
             startActivity(intent);
@@ -26,28 +26,15 @@ public class CrimeListActivity extends SingleFragmentActivity implements CrimeLi
         }
     }
 
-    @Override
-    public void onCrimeUpdated(Crime crime) {
-        CrimeListFragment listFragment = (CrimeListFragment)
-                getSupportFragmentManager()
-                        .findFragmentById(R.id.fragment_container);
-        listFragment.updateUI();
-    }
+//    @Override
+//    public void onCrimeUpdated(Crime crime) {
+//        CrimeListFragment listFragment = (CrimeListFragment)
+//                getSupportFragmentManager()
+//                        .findFragmentById(R.id.fragment_container);
+//        listFragment.updateUI();
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.new_crime:
-                Crime crime = new Crime();
-                CrimeLab.get(getParent()).addCrime(crime);
-                Intent intent = CrimePagerActivity
-                        .newIntent(getParent(), crime.getId());
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 
 
     private void updateSubtitle() {

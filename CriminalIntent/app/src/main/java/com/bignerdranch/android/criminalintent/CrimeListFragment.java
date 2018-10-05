@@ -31,7 +31,7 @@ public class CrimeListFragment extends Fragment {
      * Required interface for hosting activities
      */
     public interface Callbacks {
-        void onCrimeSelected(Crime crime);
+        void onCrimeUpdated(Crime crime);
     }
     //@Override
     public void onAttach(Activity activity) {
@@ -100,8 +100,11 @@ public class CrimeListFragment extends Fragment {
             case R.id.new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                updateUI();
-                mCallbacks.onCrimeSelected(crime);
+                Intent intent = CrimePagerActivity
+                        .newIntent(getActivity(), crime.getId());
+                startActivity(intent);
+//                updateUI();
+//                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
@@ -163,7 +166,9 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            mCallbacks.onCrimeSelected(mCrime);
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
+            //mCallbacks.onCrimeSelected(mCrime);
         }
     }
 

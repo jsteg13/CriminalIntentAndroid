@@ -59,25 +59,19 @@ public class CrimeFragment extends Fragment {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     //private android.view.SurfaceHolder.Callback mCallbacks;
-    private Callbacks mCallbacks;
+
 
 
     /**
      * Required interface for hosting activities
      */
-//    public interface Callbacks {
-//        void onCrimeUpdated(Crime crime);
-//    }
-
-    public interface Callbacks {
+   public interface Callbacks {
         void onCrimeUpdated(Crime crime);
-    }
+   }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallbacks = (Callbacks) activity;
-    }
+
+
+
 
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -126,11 +120,7 @@ public class CrimeFragment extends Fragment {
                 .updateCrime(mCrime);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
-    }
+
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
@@ -308,10 +298,7 @@ public class CrimeFragment extends Fragment {
         }
     }
 
-    private void updateCrime() {
-        CrimeLab.get(getActivity()).updateCrime(mCrime);
-        mCallbacks.onCrimeUpdated(mCrime);
-    }
+
 
 
 
