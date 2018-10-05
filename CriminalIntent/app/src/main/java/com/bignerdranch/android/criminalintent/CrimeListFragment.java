@@ -34,9 +34,9 @@ public class CrimeListFragment extends Fragment {
         void onCrimeSelected(Crime crime);
     }
     //@Override
-    public void onAttach(Context context) {
-        super.onAttach((Activity) context);
-        mCallbacks = (Callbacks) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
     }
 
     @Override

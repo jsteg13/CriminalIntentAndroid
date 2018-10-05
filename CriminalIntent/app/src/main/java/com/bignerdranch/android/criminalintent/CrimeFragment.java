@@ -73,6 +73,12 @@ public class CrimeFragment extends Fragment {
         void onCrimeUpdated(Crime crime);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -83,11 +89,7 @@ public class CrimeFragment extends Fragment {
         return fragment;
     }
 
-    //@Override
-    public void onAttach(Context context) {
-        super.onAttach((Activity) context);
-        mCallbacks = (Callbacks) context;
-    }
+
 
 
     @Override
@@ -220,6 +222,7 @@ public class CrimeFragment extends Fragment {
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         boolean canTakePhoto = mPhotoFile != null &&
                 captureImage.resolveActivity(packageManager) != null;
+        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         mPhotoButton.setEnabled(canTakePhoto);
 
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +252,7 @@ public class CrimeFragment extends Fragment {
 
 
 
-        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
+
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         updatePhotoView();
 
