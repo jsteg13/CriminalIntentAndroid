@@ -63,7 +63,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/crime_photo_2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -71,22 +71,20 @@
                 android:src="@android:drawable/ic_menu_report_image" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/crime_photo_3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_report_image"
-                 />
+                android:src="@android:drawable/ic_menu_report_image" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/crime_photo_4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_report_image"
-                 />
+                android:src="@android:drawable/ic_menu_report_image" />
 
         </LinearLayout>
 

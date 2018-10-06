@@ -58,7 +58,10 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
-    //private android.view.SurfaceHolder.Callback mCallbacks;
+    private ImageView mPhotoView2;
+    private ImageView mPhotoView3;
+    private ImageView mPhotoView4;
+
 
 
 
@@ -244,6 +247,9 @@ public class CrimeFragment extends Fragment {
 
 
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+        mPhotoView2 = (ImageView) v.findViewById(R.id.crime_photo_2);
+        mPhotoView3 = (ImageView) v.findViewById(R.id.crime_photo_3);
+        mPhotoView4 = (ImageView) v.findViewById(R.id.crime_photo_4);
         updatePhotoView();
 
         return v;
@@ -290,8 +296,7 @@ public class CrimeFragment extends Fragment {
             }
         }else if (requestCode == REQUEST_PHOTO) {
            Uri uri = FileProvider.getUriForFile(getActivity(),
-                    "com.bignerdranch.android.criminalintent.fileprovider",
-                   mPhotoFile);
+                    "com.bignerdranch.android.criminalintent.fileprovider",mPhotoFile);
             getActivity().revokeUriPermission(uri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updatePhotoView();
@@ -330,8 +335,7 @@ public class CrimeFragment extends Fragment {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
         } else {
-            Bitmap bitmap = PictureUtils.getScaledBitmap(
-                    mPhotoFile.getPath(), getActivity());
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
         }
     }
