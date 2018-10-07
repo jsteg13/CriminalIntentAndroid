@@ -75,20 +75,15 @@ public class CrimeLab {
         }
     }
 
-//    public File getPhotoFile(Crime crime) {
-//        File externalFilesDir = mContext
-//                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//
-//        if (externalFilesDir == null) {
-//            return null;
-//        }
-//
-//        return new File(externalFilesDir, crime.getPhotoFilename());
-//    }
-
     public File getPhotoFile(Crime crime) {
-        File filesDir = mContext.getFilesDir();
-        return new File(filesDir, crime.getPhotoFilename());
+        File externalFilesDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (externalFilesDir == null) {
+            return null;
+        }
+
+        return new File(externalFilesDir, crime.getPhotoFilename());
     }
 
     public void updateCrime(Crime crime) {
