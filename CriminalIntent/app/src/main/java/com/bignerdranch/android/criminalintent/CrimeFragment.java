@@ -84,7 +84,9 @@ public class CrimeFragment extends Fragment {
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
-    //private Detector<Face> safeDetector;
+    private Detector<Face>  safeDetector;
+    SparseArray<Face> faces;
+
 
 
     private Button mReportButton;
@@ -117,6 +119,31 @@ public class CrimeFragment extends Fragment {
         return fragment;
     }
 
+
+    //Crashes whenever safe detector is called in listener
+    public void createDetector(){
+        FaceDetector detector = new FaceDetector.Builder(context)
+                .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .build();
+        safeDetector = new SafeFaceDetector(detector);
+    }
+
+    //Crashes whenever safe detector is called in listener
+    public void createFrameFromBitmap(Bitmap bitmap){
+        // Create a frame from the bitmap and run face detection on the frame.
+        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<Face> faces = safeDetector.detect(frame);
+    }
+
+
+    //Crashes whenever safe detector is called in listener
+    public void releaseDetector(){
+        safeDetector.release();
+    }
+
+    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,11 +171,7 @@ public class CrimeFragment extends Fragment {
 //        InputStream stream = getResources().openRawResource(R.raw.face);
 //        final Bitmap bitmap = BitmapFactory.decodeStream(stream);
 
-//        FaceDetector detector = new FaceDetector.Builder(context)
-//                .setTrackingEnabled(false)
-//                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-//                .build();
-//        safeDetector = new SafeFaceDetector(detector);
+
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
@@ -196,21 +219,18 @@ public class CrimeFragment extends Fragment {
         faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
         faceDetectView.setText("");
         mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
-        mFaceDetection.setChecked(true);
+        mFaceDetection.setChecked(false);
         mFaceDetection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked==true){
                     //Do Face Detection
-                    //Bitmap bitmap = PictureUtils.getScaledBitmap(
-                     //       mPhotoFile.getPath(), getActivity());
-//                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-//                    SparseArray<Face> faces = safeDetector.detect(frame);
-
+                    //faces.size();
                     faceDetectView.setText("Doing Face Detection");
                 }
                 else{
                     //Remove Textview fro face detection
+
                     faceDetectView.setText("");
                 }
             }
