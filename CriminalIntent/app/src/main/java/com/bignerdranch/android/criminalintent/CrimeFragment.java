@@ -81,11 +81,14 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
     private Detector<Face> safeDetector;
 
+=======
+>>>>>>> parent of 1e64a27... Created Function for Face Detection
 =======
 >>>>>>> parent of 1e64a27... Created Function for Face Detection
     private Button mReportButton;
@@ -194,6 +197,7 @@ public class CrimeFragment extends Fragment {
         });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
         faceDetectView.setText("");
         mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
@@ -217,6 +221,8 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+=======
+>>>>>>> parent of 1e64a27... Created Function for Face Detection
 =======
 >>>>>>> parent of 1e64a27... Created Function for Face Detection
         mReportButton = (Button) v.findViewById(R.id.crime_report);
