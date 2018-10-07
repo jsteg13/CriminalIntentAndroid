@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +21,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bignerdranch.android.criminalintent.SafeFaceDetector;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
+
 
 import com.bignerdranch.android.criminalintent.database.TinyDB;
 import com.google.gson.Gson;
@@ -41,6 +49,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -74,6 +83,7 @@ public class CrimeFragment extends Fragment {
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
+    private Detector<Face> safeDetector;
 
     private Button mReportButton;
     private Button mSuspectButton;
@@ -112,6 +122,8 @@ public class CrimeFragment extends Fragment {
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
 
+
+
     }
 
     @Override
@@ -126,6 +138,15 @@ public class CrimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
+
+        InputStream stream = getResources().openRawResource(R.raw.face);
+        final Bitmap bitmap = BitmapFactory.decodeStream(stream);
+
+        FaceDetector detector = new FaceDetector.Builder(context)
+                .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .build();
+        safeDetector = new SafeFaceDetector(detector);
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
@@ -172,13 +193,18 @@ public class CrimeFragment extends Fragment {
         faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
         faceDetectView.setText("");
         mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
-        mFaceDetection.setChecked(true);
+        mFaceDetection.setChecked(false);
         mFaceDetection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked==true){
                     //Do Face Detection
-                    faceDetectView.setText("Doing Face Detection");
+                    //Bitmap bitmap = PictureUtils.getScaledBitmap(
+                     //       mPhotoFile.getPath(), getActivity());
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                    SparseArray<Face> faces = safeDetector.detect(frame);
+
+                    faceDetectView.setText(faces.size()+"Faces Detected");
                 }
                 else{
                     //Remove Textview fro face detection
@@ -270,7 +296,7 @@ public class CrimeFragment extends Fragment {
         if (count == 4){
             count = 0;
         }
-
+        safeDetector.release();
 
         return v;
 
