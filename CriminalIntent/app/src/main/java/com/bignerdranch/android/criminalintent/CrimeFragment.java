@@ -71,6 +71,10 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
+
+    private CheckBox mFaceDetection;
+    private  TextView faceDetectView;
+
     private Button mReportButton;
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
@@ -162,6 +166,24 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mCrime.setSolved(isChecked);
+            }
+        });
+
+        faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
+        faceDetectView.setText("");
+        mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
+        mFaceDetection.setChecked(true);
+        mFaceDetection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked==true){
+                    //Do Face Detection
+                    faceDetectView.setText("Doing Face Detection");
+                }
+                else{
+                    //Remove Textview fro face detection
+                    faceDetectView.setText("");
+                }
             }
         });
 
