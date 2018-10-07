@@ -80,11 +80,14 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
+<<<<<<< HEAD
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
     private Detector<Face> safeDetector;
 
+=======
+>>>>>>> parent of 1e64a27... Created Function for Face Detection
     private Button mReportButton;
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
@@ -190,6 +193,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+<<<<<<< HEAD
         faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
         faceDetectView.setText("");
         mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
@@ -213,6 +217,8 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+=======
+>>>>>>> parent of 1e64a27... Created Function for Face Detection
         mReportButton = (Button) v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
