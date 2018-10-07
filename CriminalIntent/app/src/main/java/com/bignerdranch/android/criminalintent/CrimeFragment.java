@@ -80,20 +80,13 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
-    private Detector<Face> safeDetector;
+    //private Detector<Face> safeDetector;
 
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
+
     private Button mReportButton;
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
@@ -148,14 +141,14 @@ public class CrimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
-        InputStream stream = getResources().openRawResource(R.raw.face);
-        final Bitmap bitmap = BitmapFactory.decodeStream(stream);
+//        InputStream stream = getResources().openRawResource(R.raw.face);
+//        final Bitmap bitmap = BitmapFactory.decodeStream(stream);
 
-        FaceDetector detector = new FaceDetector.Builder(context)
-                .setTrackingEnabled(false)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-                .build();
-        safeDetector = new SafeFaceDetector(detector);
+//        FaceDetector detector = new FaceDetector.Builder(context)
+//                .setTrackingEnabled(false)
+//                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+//                .build();
+//        safeDetector = new SafeFaceDetector(detector);
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
@@ -199,13 +192,11 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         faceDetectView = (TextView) v.findViewById(R.id.faceDetectTextView);
         faceDetectView.setText("");
         mFaceDetection = (CheckBox) v.findViewById(R.id.faceDetectCheckBox);
-        mFaceDetection.setChecked(false);
+        mFaceDetection.setChecked(true);
         mFaceDetection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -213,10 +204,10 @@ public class CrimeFragment extends Fragment {
                     //Do Face Detection
                     //Bitmap bitmap = PictureUtils.getScaledBitmap(
                      //       mPhotoFile.getPath(), getActivity());
-                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-                    SparseArray<Face> faces = safeDetector.detect(frame);
+//                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+//                    SparseArray<Face> faces = safeDetector.detect(frame);
 
-                    faceDetectView.setText(faces.size()+"Faces Detected");
+                    faceDetectView.setText("Doing Face Detection");
                 }
                 else{
                     //Remove Textview fro face detection
@@ -225,12 +216,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
-=======
->>>>>>> parent of 1e64a27... Created Function for Face Detection
+
         mReportButton = (Button) v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -314,7 +300,7 @@ public class CrimeFragment extends Fragment {
         if (count == 4){
             count = 0;
         }
-        safeDetector.release();
+        //safeDetector.release();
 
         return v;
 
