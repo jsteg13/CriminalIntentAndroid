@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -84,8 +90,7 @@ public class CrimeFragment extends Fragment {
 
     private CheckBox mFaceDetection;
     private  TextView faceDetectView;
-    private Detector<Face>  safeDetector;
-    SparseArray<Face> faces;
+    int numFaces;
 
 
 
@@ -120,29 +125,7 @@ public class CrimeFragment extends Fragment {
     }
 
 
-    //Crashes whenever safe detector is called in listener
-    public void createDetector(){
-        FaceDetector detector = new FaceDetector.Builder(context)
-                .setTrackingEnabled(false)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-                .build();
-        safeDetector = new SafeFaceDetector(detector);
-    }
 
-    //Crashes whenever safe detector is called in listener
-    public void createFrameFromBitmap(Bitmap bitmap){
-        // Create a frame from the bitmap and run face detection on the frame.
-        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-        SparseArray<Face> faces = safeDetector.detect(frame);
-    }
-
-
-    //Crashes whenever safe detector is called in listener
-    public void releaseDetector(){
-        safeDetector.release();
-    }
-
-    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -225,8 +208,7 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked==true){
                     //Do Face Detection
-                    //faces.size();
-                    faceDetectView.setText("Doing Face Detection");
+                    faceDetectView.setText(numFaces + " Faces Detected");
                 }
                 else{
                     //Remove Textview fro face detection
@@ -416,6 +398,37 @@ public class CrimeFragment extends Fragment {
             mPhotoView.setImageBitmap(bitmap);
             updateImageViews();
             Log.d("uris", String.valueOf(uriList.size()));
+
+            Paint myRectPaint = new Paint();
+            myRectPaint.setStrokeWidth(5);
+            myRectPaint.setColor(Color.RED);
+            myRectPaint.setStyle(Paint.Style.STROKE);
+
+            Bitmap tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
+            Canvas tempCanvas = new Canvas(tempBitmap);
+            tempCanvas.drawBitmap(bitmap, 0, 0, null);
+
+            FaceDetector faceDetector = new
+                    FaceDetector.Builder(getActivity().getApplicationContext()).setTrackingEnabled(false)
+                    .build();
+            if(!faceDetector.isOperational()){
+                new AlertDialog.Builder(getView().getContext()).setMessage("Could not set up the face detector!").show();
+                return;
+            }
+
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            SparseArray<Face> faces = faceDetector.detect(frame);
+
+            for(int i=0; i<faces.size(); i++) {
+                Face thisFace = faces.valueAt(i);
+                float x1 = thisFace.getPosition().x;
+                float y1 = thisFace.getPosition().y;
+                float x2 = x1 + thisFace.getWidth();
+                float y2 = y1 + thisFace.getHeight();
+                tempCanvas.drawRoundRect(new RectF(x1, y1, x2, y2), 2, 2, myRectPaint);
+            }
+            numFaces= faces.size();
+            //myImageView.setImageDrawable(new BitmapDrawable(getResources(),tempBitmap));
 
         }
     }
